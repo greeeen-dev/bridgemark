@@ -37,8 +37,8 @@ async def target(ctx, name, *, channel):
     data[name]['target'].append(channel)
     await ctx.send(f'Listening to <#{channel}> as message target for {name}')
 
-@bot.command()
-async def data(ctx, name):
+@bot.command(name='data')
+async def resultdata(ctx, name):
     data = recent_data[name]
 
     if not data['source']:
