@@ -75,7 +75,7 @@ async def on_message(message):
         await bot.process_commands(message)
 
     for name in data.keys():
-        if message.channel.id == data[name]['source']:
+        if message.channel.id == data[name]['source'] and not message.webhook_id:
             recent_data[name].update({'source': t})
             break
         elif message.channel.id in data[name]['target']:
