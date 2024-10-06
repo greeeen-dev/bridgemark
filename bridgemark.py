@@ -1,3 +1,30 @@
+"""
+MIT License
+
+Copyright (c) 2024-present Green (greeeen-dev)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+"""
+
+# BridgeMark is a simple bridge bot performance measuring tool made to see just how Unifier
+# (https://github.com/UnifierHQ/unifier) performs compared to similar bots.
+
 import nextcord
 import time
 import os
@@ -75,10 +102,10 @@ async def on_message(message):
         await bot.process_commands(message)
 
     for name in data.keys():
-        if message.channel.id == data[name]['source'] and not message.webhook_id:
+        if message.channel.id == data[name]['source'] and not message.webhook_id and not message.author.bot:
             recent_data[name].update({'source': t})
             break
-        elif message.channel.id in data[name]['target']:
+        elif message.channel.id in data[name]['target'] and message.webhook_id:
             if len(recent_data[name]['target']) >= len(data[name]['target']):
                 recent_data[name]['target'] = []
 
