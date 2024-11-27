@@ -96,7 +96,7 @@ async def resultdata(ctx, name):
 
 @bot.event
 async def on_message(message):
-    t = time.time()
+    t = message.created_at.timestamp()
 
     if message.content.startswith(bot.command_prefix) and not message.author.bot:
         await bot.process_commands(message)
@@ -104,11 +104,9 @@ async def on_message(message):
     for name in data.keys():
         if message.channel.id == data[name]['source'] and not message.webhook_id and not message.author.bot:
             recent_data[name].update({'source': t})
+            recent_data[name]['target'] = []
             break
-        elif message.channel.id in data[name]['target'] and message.webhook_id:
-            if len(recent_data[name]['target']) >= len(data[name]['target']):
-                recent_data[name]['target'] = []
-
+        elif message.channel.id in data[name]['target'] and (message.webhook_id or message.author.bot):
             recent_data[name]['target'].append(t)
 
 # unlike Unifier, BridgeMark is not meant to be used by the public
